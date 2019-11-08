@@ -1,4 +1,17 @@
+<!--
+//add position and update in real time
+
+//when tracker fails to find each eye, print out error message - place camera in the middle
+
+//draw crosshair using average x and y of eye positions
+
+//find position and absolute location of cordinates
+
+//if the cordinates are too extreem, revert to previous location (if > threshold then
+
+//drag and drop container? -->
 <!doctype html>
+
 <html lang="en">
 	<head>
 		<title>Face tracker</title>
@@ -68,7 +81,7 @@
 			}
 		</style>
 		<script type="text/javascript">
-
+			//var number = positionLoop();
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-32642923-1']);
 			_gaq.push(['_trackPageview']);
@@ -94,10 +107,14 @@
 			</div>
 			<br/>
 			<input class="btn" type="button" value="wait, loading video" disabled="disabled" onclick="startVideo()" id="startbutton"></input>
-			<div id="text">
-				<p></p>
+			<input id="another_button" type="button" value="printPosition" onclick="positionLoop();" /></input>
+			<div id="print_xy">
+				<p>
+					test text
+				</p>
 			</div>
 			<script>
+
 				var vid = document.getElementById('videoel');
 				var vid_width = vid.width;
 				var vid_height = vid.height;
@@ -194,6 +211,7 @@
 					trackingStarted = true;
 					// start loop to draw face
 					drawLoop();
+					positionLoop();
 				}
 
 				function drawLoop() {
@@ -203,6 +221,20 @@
 					if (ctrack.getCurrentPosition()) {
 						ctrack.draw(overlay);
 					}
+
+
+
+				}
+				function positionLoop() {
+					//var ctracker = new clm.tracker();
+					//requestAnimationFrame(positionLoop);
+					requestAnimFrame(positionLoop);
+					var positions = ctrack.getCurrentPosition();
+					//console.log(positions);
+					document.getElementById('print_xy').innerHTML = '{' + parseInt(positions[27][0], 10) +' , ' + parseInt(positions[27][1], 10) + '}' +
+					'{' + parseInt(positions[32][0], 10) +' , ' + parseInt(positions[32][1], 10) + '}';
+					// positions = [[x_0, y_0], [x_1,y_1], ... ]
+					// do something with the positions ...
 				}
 
 				/*********** Code for stats **********/
